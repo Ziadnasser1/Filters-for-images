@@ -127,6 +127,11 @@ void blackWhite() {
 }
 
 void invertFilter() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image[i][j] = abs(image[i][j]-255);
+        }
+    }
 }
 
 void mergeFilter() {
@@ -136,6 +141,32 @@ void flipImage() {
 }
 
 void darkenLighten() {
+    string degreeType;
+    while (true) {
+        long lightAdder;
+        cout << "Do you want to (d)arken or (l)ighten?\n"
+                ">> ";
+        cin >> degreeType;
+        if (degreeType == "d") {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j< SIZE; j++) {
+                    image[i][j] = image[i][j]/2;
+                }
+            }
+            break;
+        } else if (degreeType == "l") {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j< SIZE; j++) {
+                    lightAdder = 255 - image[i][j];
+                    lightAdder /= 2;
+                    image[i][j] += lightAdder;
+                }
+            }
+            break;
+        } else {
+            cout << "Invalid input\n" << endl;
+        }
+    }
 }
 
 void rotateImage() {
