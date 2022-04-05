@@ -138,6 +138,42 @@ void mergeFilter() {
 }
 
 void flipImage() {
+    char option;
+    cout<<"flip (h)orizontally or (v)ertically?"<<endl;
+    cout<<">>";
+    cin>>option;
+    //cases of vertical or horizontal flip filter for the required image.
+    switch(option){
+        case 'h':
+            {
+                //in case of horizontal flip loop till reach half of the rows length.
+                for(int i=0;i<SIZE/2;i++){
+                    for(int j=0;j<SIZE;j++){
+                        //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                        //with it's opposite pixel's data belong to the other half of the image
+                        //and giving the opposite pixel the data of the temporary variable.
+                        int temp= image[i][j];
+                        image[i][j]=image[SIZE-1-i][j];
+                        image[SIZE-1-i][j]=temp;
+                        }
+                    }
+            break;
+            }
+        case 'v':
+            {
+                //in case of vertical flip loop till reach half of the columns length.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=0;j<SIZE/2;j++){
+                        //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                        //with it's opposite pixel's data belong to the other half of the image.
+                        //and giving the opposite pixel the data of the temporary variable.
+                        int temp= image[i][j];
+                        image[i][j]=image[i][SIZE-1-j];
+                        image[i][SIZE-1-j]=temp;
+                        }
+                    }
+             break;
+            }
 }
 
 void darkenLighten() {
@@ -183,6 +219,58 @@ void shrinkImage() {
 
 
 void mirrorHalf() {
+     char choice;
+    cout<<"Mirror (l)eft, (r)ight, (u)pper, (d)own side?"<<endl;
+    cout<<">>";
+    cin>>choice;
+
+    //cases of the different types of mirroring the image.
+    switch(choice){
+        case 'l':
+            {
+                //in case of mirroring the left half of the required image loop from vertical half till the end.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=SIZE/2;j<SIZE;j++){
+                        //giving each pixel in the right side of the image the data of the opposite left side pixel.
+                        image[i][j]=image[i][SIZE-1-j];
+                        }
+                    }
+            break;
+            }
+        case 'r':
+            {
+                //in case of mirroring the right half of the required image loop from the left of the image till the vertical half.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=0;j<SIZE/2;j++){
+                        //giving each pixel in the left side of the image the data of the opposite right side pixel.
+                        image[i][j]=image[i][SIZE-1-j];
+                        }
+                    }
+             break;
+            }
+            case 'u':
+            {
+                //in case of mirroring the upper half of the required image loop from the horizontal half of the image till its end.
+                for(int i=SIZE/2;i<SIZE;i++){
+                    for(int j=0;j<SIZE;j++){
+                        //giving each pixel in the upper side the data of the opposite pixel in the down side.
+                        image[i][j]=image[SIZE-1-i][j];
+                        }
+                    }
+             break;
+            }
+            case 'd':
+            {
+                //in case of mirroring the down half of the required image loop from the beginning of the image till its horizontal half.
+                for(int i=0;i<SIZE/2;i++){
+                    for(int j=0;j<SIZE;j++){
+                        //giving each pixel in the down side the data of the opposite pixel in the upper side.
+                        image[i][j]=image[SIZE-1-i][j];
+                        }
+                    }
+             break;
+            }
+    }
 }
 
 void shuffleImage() {
