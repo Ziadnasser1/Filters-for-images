@@ -18,6 +18,8 @@
 using namespace std;
 
 unsigned char image[SIZE][SIZE];
+unsigned char mergedImg[SIZE][SIZE];
+
 
 
 void loadImage();
@@ -118,7 +120,7 @@ int main() {
                 break;
         }
     }
-    cout << "\nThank you for using our photoshop app \uF04A";
+    cout << "\nThank you for using our image editing app \uF04A";
     return 0;
 }
 
@@ -135,6 +137,19 @@ void invertFilter() {
 }
 
 void mergeFilter() {
+    for (int i=0; i<SIZE; i++){
+        for (int j=0; j<SIZE; j++){
+            mergedImg[i][j] = image[i][j];
+        }
+    }
+    cout <<"Please enter name of image file to merge with: \n >> ";
+    loadImage();
+    for (int i=0; i<SIZE; i++){
+        for (int j=0; j<SIZE; j++){
+            image[i][j] = (mergedImg[i][j]+image[i][j])/2;
+        }
+    }
+
 }
 
 void flipImage() {
@@ -206,6 +221,41 @@ void darkenLighten() {
 }
 
 void rotateImage() {
+     int choice;
+    for (int i = 0; i < (SIZE); i++){
+        for (int j =i+1; j< (SIZE); j++) {
+            swap(image[i][j],image[j][i]);
+        }
+    }
+
+    cout<<"Rotate (90), (180) or (270) degrees ? /n >> ";
+    cin>>choice;
+
+    if(choice==90){
+        for (int i = 0; i < SIZE; i++ ){
+            for (int j = 0; j < SIZE/2; j += 1){
+                swap(image[j][i], image[SIZE-j-1][i]);
+            }
+        }
+    }
+
+    else if(choice==180){
+        for (int i = 0; i < (SIZE); i++){
+            for (int j =0; j< (SIZE-i); j++){
+                swap(image[i][j],image[SIZE-j-1][SIZE-i-1]);
+            }
+        }
+    }
+
+    else if(choice==270){
+        for (int i = 0; i < SIZE; i++){
+            for (int j = 0; j < SIZE/2; j += 1){
+                swap(image[i][j], image[i][SIZE-j-1]);
+            }
+        }
+    }
+
+    else cout<<"Wrong Choice, Please Try Again !";
 }
 
 void detectEdges() {
