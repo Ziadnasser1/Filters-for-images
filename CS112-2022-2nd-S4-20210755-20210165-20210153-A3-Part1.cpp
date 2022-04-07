@@ -131,7 +131,7 @@ void blackWhite() {
 void invertFilter() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            image[i][j] = abs(image[i][j]-255);
+            image[i][j] = abs(image[i][j]-255);             // Inverts the color of the pixel
         }
     }
 }
@@ -139,14 +139,22 @@ void invertFilter() {
 void mergeFilter() {
     for (int i=0; i<SIZE; i++){
         for (int j=0; j<SIZE; j++){
-            mergedImg[i][j] = image[i][j];
+            mergedImg[i][j] = image[i][j];             // Adds the photo to a temporary matrix
         }
     }
-    cout <<"Please enter name of image file to merge with: \n >> ";
-    loadImage();
+    while (true) {             // Adds the photo we want to merge with
+        char imageFileName[100];
+        cout <<"Please enter name of image file to merge with:\n"
+               ">> ";
+        cin >> imageFileName;
+        strcat(imageFileName, ".bmp");
+        if (readGSBMP(imageFileName, image) != 1) {
+            break;
+        }
+    }
     for (int i=0; i<SIZE; i++){
         for (int j=0; j<SIZE; j++){
-            image[i][j] = (mergedImg[i][j]+image[i][j])/2;
+            image[i][j] = (mergedImg[i][j]+image[i][j])/2;             // Merges the two photos together
         }
     }
 
@@ -154,41 +162,42 @@ void mergeFilter() {
 
 void flipImage() {
     char option;
-    cout<<"flip (h)orizontally or (v)ertically?"<<endl;
-    cout<<">>";
+    cout <<"flip (h)orizontally or (v)ertically?\n"
+           ">> ";
     cin>>option;
     //cases of vertical or horizontal flip filter for the required image.
-    switch(option){
-        case 'h':
-            {
-                //in case of horizontal flip loop till reach half of the rows length.
-                for(int i=0;i<SIZE/2;i++){
-                    for(int j=0;j<SIZE;j++){
-                        //taking the data in each pixel and put it in temporary variable then changing each pixel's data
-                        //with it's opposite pixel's data belong to the other half of the image
-                        //and giving the opposite pixel the data of the temporary variable.
-                        int temp= image[i][j];
-                        image[i][j]=image[SIZE-1-i][j];
-                        image[SIZE-1-i][j]=temp;
-                        }
-                    }
+    switch(option) {
+        case 'h': {
+            //in case of vertical flip loop till reach half of the columns length.
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE / 2; j++) {
+                    //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                    //with it's opposite pixel's data belong to the other half of the image.
+                    //and giving the opposite pixel the data of the temporary variable.
+                    int temp = image[i][j];
+                    image[i][j] = image[i][SIZE - 1 - j];
+                    image[i][SIZE - 1 - j] = temp;
+                }
+            }
             break;
+        }
+        case 'v': {
+            //in case of horizontal flip loop till reach half of the rows length.
+            for (int i = 0; i < SIZE / 2; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                    //with it's opposite pixel's data belong to the other half of the image
+                    //and giving the opposite pixel the data of the temporary variable.
+                    int temp = image[i][j];
+                    image[i][j] = image[SIZE - 1 - i][j];
+                    image[SIZE - 1 - i][j] = temp;
+                }
             }
-        case 'v':
-            {
-                //in case of vertical flip loop till reach half of the columns length.
-                for(int i=0;i<SIZE;i++){
-                    for(int j=0;j<SIZE/2;j++){
-                        //taking the data in each pixel and put it in temporary variable then changing each pixel's data
-                        //with it's opposite pixel's data belong to the other half of the image.
-                        //and giving the opposite pixel the data of the temporary variable.
-                        int temp= image[i][j];
-                        image[i][j]=image[i][SIZE-1-j];
-                        image[i][SIZE-1-j]=temp;
-                        }
-                    }
-             break;
-            }
+            break;
+        }
+        default:
+            cout << "Invalid input\n";
+    }
 }
 
 void darkenLighten() {
@@ -201,7 +210,7 @@ void darkenLighten() {
         if (degreeType == "d") {
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j< SIZE; j++) {
-                    image[i][j] = image[i][j]/2;
+                    image[i][j] = image[i][j]/2;             // Darken the photo by reducing its value by half
                 }
             }
             break;
@@ -209,8 +218,8 @@ void darkenLighten() {
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j< SIZE; j++) {
                     lightAdder = 255 - image[i][j];
-                    lightAdder /= 2;
-                    image[i][j] += lightAdder;
+                    lightAdder /= 2;             // Get the value needed to reach 255 and divide by 2
+                    image[i][j] += lightAdder;             // Adds the lightAdder value to the pixel to lighten it
                 }
             }
             break;
@@ -228,13 +237,14 @@ void rotateImage() {
         }
     }
 
-    cout<<"Rotate (90), (180) or (270) degrees ? /n >> ";
+    cout<<"Rotate (90), (180) or (270) degrees ?\n"
+          ">> ";
     cin>>choice;
 
-    if(choice==90){
-        for (int i = 0; i < SIZE; i++ ){
-            for (int j = 0; j < SIZE/2; j += 1){
-                swap(image[j][i], image[SIZE-j-1][i]);
+    if(choice==90) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE / 2; j += 1) {
+                swap(image[i][j], image[i][SIZE - j - 1]);                  // Rotates 90 degree clockwise
             }
         }
     }
@@ -242,19 +252,18 @@ void rotateImage() {
     else if(choice==180){
         for (int i = 0; i < (SIZE); i++){
             for (int j =0; j< (SIZE-i); j++){
-                swap(image[i][j],image[SIZE-j-1][SIZE-i-1]);
+                swap(image[i][j],image[SIZE-j-1][SIZE-i-1]);             // Rotates 180 degree clockwise
             }
         }
     }
 
     else if(choice==270){
-        for (int i = 0; i < SIZE; i++){
-            for (int j = 0; j < SIZE/2; j += 1){
-                swap(image[i][j], image[i][SIZE-j-1]);
+            for (int i = 0; i < SIZE; i++ ){
+                for (int j = 0; j < SIZE/2; j += 1){
+                    swap(image[j][i], image[SIZE-j-1][i]);             // Rotates 270 degree clockwise
+                }
             }
         }
-    }
-
     else cout<<"Wrong Choice, Please Try Again !";
 }
 
@@ -270,8 +279,8 @@ void shrinkImage() {
 
 void mirrorHalf() {
      char choice;
-    cout<<"Mirror (l)eft, (r)ight, (u)pper, (d)own side?"<<endl;
-    cout<<">>";
+    cout<<"Mirror (l)eft, (r)ight, (u)pper, (d)own side?\n";
+    cout<<">> ";
     cin>>choice;
 
     //cases of the different types of mirroring the image.
@@ -320,6 +329,8 @@ void mirrorHalf() {
                     }
              break;
             }
+            default:
+                cout << "Invalid input\n";
     }
 }
 
