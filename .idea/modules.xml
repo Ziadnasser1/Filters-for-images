@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/CS112-2022-2nd-S4-20210755-20210165-20210153-A3-Part1.cpp.iml" filepath="$PROJECT_DIR$/.idea/CS112-2022-2nd-S4-20210755-20210165-20210153-A3-Part1.cpp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Filters-for-images.iml" filepath="$PROJECT_DIR$/.idea/Filters-for-images.iml" />
     </modules>
   </component>
