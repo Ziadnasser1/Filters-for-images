@@ -134,12 +134,69 @@ void invertFilter() {
 }
 
 void mergeFilter() {
+
+    char imageFileName[100];
+    cout << "\nPlease enter file name of the image to merge: ";
+    cin >> imageFileName;
+    strcat (imageFileName, ".bmp");
+    readRGBBMP(imageFileName, image1);             // Adds the photo to merge
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                image[i][j][h] = image[i][j][h] / 2;             // Reduces the value of the pixel by half
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                image1[i][j][h] = image1[i][j][h] / 2;             // Reduces the value of the pixel by half
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                image[i][j][h] = image[i][j][h] + image1[i][j][h];             // Adds the values of both pixels together
+            }
+        }
+    }
 }
 
 void flipImage() {
 }
 
 void darkenLighten() {
+    string degreeType;
+    while (true) {
+        long lightAdder;
+        cout << "Do you want to (d)arken or (l)ighten?\n"
+                ">> ";
+        cin >> degreeType;
+        if (degreeType == "d") {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        image[i][j][h] = image[i][j][h] / 2;             // Reduces the value of the pixel by half
+                    }
+                }
+            }
+            break;
+        } else if (degreeType == "l") {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        lightAdder = 255 - image[i][j][h];
+                        lightAdder /= 2;             // Get the value needed to reach 255 and divide by 2
+                        image[i][j][h] += lightAdder;             // Adds the lightAdder value to the pixel to lighten it
+                    }
+                }
+            }
+            break;
+        } else {
+            cout << "Invalid input\n" << endl;
+        }
+    }
 }
 
 void rotateImage() {
@@ -152,6 +209,40 @@ void enlargeImage() {
 }
 
 void shrinkImage() {
+    string shrinkLevel;
+    while (true) {
+        cout << "Shrink to (1/2), (1/3) or (1/4)?\n"
+                ">> ";
+        cin >> shrinkLevel;
+        if ((shrinkLevel == "1/2") || (shrinkLevel == "1/3") || (shrinkLevel == "1/4")) {
+            int level = shrinkLevel[shrinkLevel.length() - 1] - '0';             // Gets the shrink level
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        imageTemp[i][j][h] = 255;             // Create a plain white image
+                    }
+                }
+            }
+            int k = 0;
+            int l = 0;
+            for (int h = 0; h < RGB; h++) {
+                for (int i = 0; i < SIZE; i += level) {
+                    for (int j = 0; j < SIZE; j += level) {
+                        imageTemp[k][l][h] = image[i][j][h];             // Adds the photo after shrinking to the white one
+                        l++;
+                    }
+                    l = 0;
+                    k++;
+                }
+                l = 0;
+                k = 0;
+            }
+            editOriginal();             // Adds the edited photo to the original one
+            break;
+        } else {
+            cout << "Invalid shrinking level\n" << endl;
+        }
+    }
 }
 
 
@@ -162,6 +253,23 @@ void shuffleImage() {
 }
 
 void blurImage() {
+    for (int i = 1; i < SIZE; i++) {
+        for (int j = 1; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                if (i != 255) {
+                    image[i][j][h] =
+                            (image[i + 1][j - 1][h] + image[i - 1][j + 1][h] + image[i + 1][j][h] + image[i][j + 1][h] +
+                             image[i + 1][j + 1][h] + image[i - 1][j - 1][h] + image[i - 1][j][h] +
+                             image[i][j - 1][h]) / 8;             // Assigning the pixel with the average of the pixels around the pixel
+                } else {
+                    image[i][j][h] =
+                            (image[i][j - 1][h] + image[i - 1][j + 1][h] + image[i][j][h] + image[i][j + 1][h] +
+                             image[i][j + 1][h] + image[i - 1][j - 1][h] + image[i - 1][j][h] +
+                             image[i][j - 1][h]) / 8;            // Assigning the pixel with the average of the pixels around the pixel
+                }
+            }
+        }
+    }
 }
 
 void saveImage() {
