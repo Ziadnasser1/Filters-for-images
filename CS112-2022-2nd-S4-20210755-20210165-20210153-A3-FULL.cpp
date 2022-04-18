@@ -126,6 +126,14 @@ int main() {
 
 
 void blackWhite() {
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            if(image[i][j]>127)
+                image[i][j]=255; //change the pixel color to white.
+            else
+                image[i][j]=0;  //change the pixel color to black.
+        }
+    }
 }
 
 void invertFilter() {
@@ -268,6 +276,38 @@ void rotateImage() {
 }
 
 void detectEdges() {
+    unsigned char imagetmp[SIZE][SIZE];
+
+    // change the whole image color to black and white.
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            if(image[i][j]>127){
+                image[i][j]=255;
+            }
+            else{
+                image[i][j]=0;
+            }
+        }
+    }
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE; j++){
+            if(i==0 || i==255 || j==0 || j==255){ //leaving the data of the boundary pixel the same without changes.
+                imagetmp[i][j]=image[i][j];
+            }
+            else{
+                 if((image[i-1][j]==image[i][j-1])&&(image[i+1][j]==image[i][j+1])&&(image[i-1][j]==image[i+1][j])&&(image[i][j-1]==image[i][j+1]))//check the different between the surrounding pixels color.
+                    imagetmp[i][j]=255;
+                else
+                    imagetmp[i][j]=0;
+            }
+        }
+    }
+    //put the modified data of the temporary image into the main image.
+    for(int i=0;i<SIZE;i++){
+         for(int j=0;j<SIZE; j++){
+            image[i][j]=imagetmp[i][j];
+        }
+    }
 }
 
 void enlargeImage() {
