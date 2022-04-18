@@ -1,7 +1,7 @@
 // FCAI – Programming 1 – 2022 - Assignment 3
 // Program Name: CS112-2022-2nd-S4-20210755-20210165-20210153-A3-Part1.cpp
 // Program Description: Lets the user apply filters on gray scale and colored bmp images
-// Last Modification Date: 4/5/2022
+// Last Modification Date: 04/18/2022
 // Author1 and ID and Group: Alan Samir Hakkoun, 20210755, Group A S3 S4
 // Author2 and ID and Group: Saif El-Din Hazem, 20210165, Group A S3 S4
 // Author3 and ID and Group: Ziad Nasser Shaaban, 20210153, Group A S3 S4
@@ -264,9 +264,64 @@ void detectEdges() {
 void enlargeImage() {
 }
 
-void shrinkImage() {
+void shrinkImage(){
+    int choice;
+    cout<<"1- Shrink to (1/2)\n 2- Shrink to (1/3) \n 3- Shrink to (1/4)?\n >> ";
+    cin>>choice;
+    if (choice==1){
+        for (int i = 0; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i/2][j/2]=image[i][j];
+            }
+        }
+        for (int i = 0; i < SIZE; i++){
+            for (int j =SIZE/2 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+        for (int i = SIZE/2; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+
 }
 
+        else if (choice==2){
+        for (int i = 0; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i/3][j/3]=image[i][j];
+            }
+        }
+        for (int i = 0; i < SIZE; i++){
+            for (int j =SIZE/3 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+        for (int i = SIZE/3; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+    }
+    else if (choice==3){
+        for (int i = 0; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i/4][j/4]=image[i][j];
+            }
+        }
+        for (int i = 0; i < SIZE; i++){
+            for (int j =SIZE/4 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+        for (int i = SIZE/4; i < SIZE; i++){
+            for (int j =0 ; j <SIZE; j++){
+                image[i][j]=255;
+            }
+        }
+    }
+    }
 
 void mirrorHalf() {
      char choice;
