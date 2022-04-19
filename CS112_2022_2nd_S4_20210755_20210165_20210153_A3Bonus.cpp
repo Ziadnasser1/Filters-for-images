@@ -128,6 +128,16 @@ int main() {
 
 
 void blackWhite() {
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<RGB ;k++){
+                if(image[i][j][0]+image[i][j][1]+image[i][j][2] >381)
+                    image[i][j][k]=255;
+                else
+                    image[i][j][k]=0;
+            }
+        }
+    }
 }
 
 void invertFilter() {
@@ -164,6 +174,48 @@ void mergeFilter() {
 }
 
 void flipImage() {
+     char option;
+    cout<<"flip (h)orizontally or (v)ertically?"<<endl;
+    cout<<">>";
+    cin>>option;
+    //cases of vertical or horizontal flip filter for the required image.
+    switch(option){
+        case 'h':
+            {
+                //in case of horizontal flip loop till reach half of the rows length.
+                for(int i=0;i<SIZE/2;i++){
+                    for(int j=0;j<SIZE;j++){
+                         for(int k=0;k<RGB;k++){
+                                //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                                //with it's opposite pixel's data belong to the other half of the image
+                                //and giving the opposite pixel the data of the temporary variable.
+                                int temp= image[i][j][k];
+                                image[i][j][k]=image[SIZE-1-i][j][k];
+                                image[SIZE-1-i][j][k]=temp;
+                            }
+
+                        }
+                    }
+            break;
+            }
+        case 'v':
+            {
+                //in case of vertical flip loop till reach half of the columns length.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=0;j<SIZE/2;j++){
+                        for(int k=0;k<RGB;k++){
+                            //taking the data in each pixel and put it in temporary variable then changing each pixel's data
+                            //with it's opposite pixel's data belong to the other half of the image.
+                            //and giving the opposite pixel the data of the temporary variable.
+                            int temp= image[i][j][k];
+                            image[i][j][k]=image[i][SIZE-1-j][k];
+                            image[i][SIZE-1-j][k]=temp;
+                            }
+                        }
+                    }
+             break;
+            }
+    }
 }
 
 void darkenLighten() {
@@ -203,6 +255,41 @@ void rotateImage() {
 }
 
 void detectEdges() {
+    unsigned char imagetmp0[SIZE][SIZE][RGB];
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<RGB ;k++){
+                if(image[i][j][0]+image[i][j][1]+image[i][j][2] >381)
+                    image[i][j][k]=255;
+                else
+                    image[i][j][k]=0;
+
+            }
+        }
+    }
+
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<RGB;k++){
+                if(i==0 || i==255 || j==0 || j==255){ //leaving the data of the boundary pixel the same without changes.
+                imagetmp0[i][j][k]=image[i][j][k];
+            }
+             else{
+                 if((image[i-1][j][k]==image[i][j-1][k])&&(image[i+1][j][k]==image[i][j+1][k])&&(image[i-1][j][k]==image[i+1][j][k])&&(image[i][j-1][k]==image[i][j+1][k]))//check the different between the surrounding pixels color.
+                    imagetmp0[i][j][k]=255;
+                else
+                    imagetmp0[i][j][k]=0;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                for (int k = 0; k < RGB; k++) {
+                image[i][j][k] = imagetmp0[i][j][k];
+            }
+        }
+    }
 }
 
 void enlargeImage() {
@@ -247,6 +334,66 @@ void shrinkImage() {
 
 
 void mirrorHalf() {
+    char choice;
+    cout<<"Mirror (l)eft, (r)ight, (u)pper, (d)own side?"<<endl;
+    cout<<">>";
+    cin>>choice;
+
+    //cases of the different types of mirroring the image.
+    switch(choice){
+        case 'l':
+            {
+                //in case of mirroring the left half of the required image loop from vertical half till the end.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=SIZE/2;j<SIZE;j++){
+                        for(int k=0;k<RGB;k++){
+                            //giving each pixel in the right side of the image the data of the opposite left side pixel.
+                            image[i][j][k]=image[i][SIZE-1-j][k];
+                            }
+                        }
+                    }
+            break;
+            }
+        case 'r':
+            {
+                //in case of mirroring the right half of the required image loop from the left of the image till the vertical half.
+                for(int i=0;i<SIZE;i++){
+                    for(int j=0;j<SIZE/2;j++){
+                        for(int k=0;k<RGB;k++){
+                            //giving each pixel in the left side of the image the data of the opposite right side pixel.
+                            image[i][j][k]=image[i][SIZE-1-j][k];
+                            }
+                        }
+                    }
+             break;
+            }
+            case 'u':
+            {
+                //in case of mirroring the upper half of the required image loop from the horizontal half of the image till its end.
+                for(int i=SIZE/2;i<SIZE;i++){
+                    for(int j=0;j<SIZE;j++){
+                        for(int k=0;k<RGB;k++){
+                             //giving each pixel in the upper side the data of the opposite pixel in the down side.
+                            image[i][j][k]=image[SIZE-1-i][j][k];
+                            }
+                        }
+                    }
+             break;
+            }
+            case 'd':
+            {
+                //in case of mirroring the down half of the required image loop from the beginning of the image till its horizontal half.
+                for(int i=0;i<SIZE/2;i++){
+                    for(int j=0;j<SIZE;j++){
+                        for(int k=0;k<SIZE;k++){
+                            //giving each pixel in the down side the data of the opposite pixel in the upper side.
+                            image[i][j][k]=image[SIZE-1-i][j][k];
+                            }
+                        }
+                    }
+             break;
+            }
+    }
 }
 
 void shuffleImage() {
