@@ -462,6 +462,12 @@ void shuffleImage() {
 }
 
 void blurImage() {
+    for (int i = 1; i <= SIZE; i++) {
+        for (int j = 1; j <= SIZE; j++) {
+            image[i][j] = (image[i + 1][j - 1] + image[i - 1][j + 1] + image[i + 1][j] + image[i][j + 1]
+                           + image[i + 1][j + 1] + image[i - 1][j - 1] + image[i - 1][j] + image[i][j - 1]) / 8;
+        }
+    }
 }
 
 void saveImage() {
