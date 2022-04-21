@@ -1,4 +1,25 @@
-C:\Users\alanh_000\AppData\Local\JetBrains\CLion2021.3\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/cygdrive/c/Program Files/JetBrains/CLion 2021.2.3/bin/ninja/cygwin/ninja.exe" -DCMAKE_C_COMPILER=/usr/bin/gcc.exe -DCMAKE_CXX_COMPILER=/usr/bin/c++.exe -G Ninja /cygdrive/c/Users/alanh_000/Documents/GitHub/Filters-for-images
+C:\Users\alanh_000\AppData\Local\JetBrains\CLion2022.1\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=/cygdrive/c/Program Files/JetBrains/CLion 2021.2.3/bin/ninja/cygwin/ninja.exe" -DCMAKE_C_COMPILER=/usr/bin/gcc.exe -DCMAKE_CXX_COMPILER=/usr/bin/c++.exe -G Ninja -S /cygdrive/c/Users/alanh_000/Documents/GitHub/Filters-for-images -B /cygdrive/c/Users/alanh_000/Documents/GitHub/Filters-for-images/cmake-build-debug
+-- The C compiler identification is GNU 11.2.0
+-- The CXX compiler identification is GNU 11.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 -- Configuring done
--- Generating done
--- Build files have been written to: /cygdrive/c/Users/alanh_000/Documents/GitHub/Filters-for-images/cmake-build-debug
+CMake Error at CMakeLists.txt:8 (add_executable):
+  Cannot find source file:
+
+    CS112-2022-2nd-S4-20210755-20210165-20210153-A3-Part1.cpp
+
+
+CMake Error at CMakeLists.txt:8 (add_executable):
+  No SOURCES given to target: Filters_for_images
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

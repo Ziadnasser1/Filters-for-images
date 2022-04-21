@@ -18,6 +18,7 @@
 using namespace std;
 
 unsigned char image[SIZE][SIZE];
+unsigned char imageTemp[SIZE][SIZE];
 unsigned char mergedImg[SIZE][SIZE];
 
 
@@ -36,6 +37,7 @@ void mirrorHalf();
 void shuffleImage();
 void blurImage();
 void saveImage();
+void editOriginal();
 
 int main() {
     char filter;
@@ -430,6 +432,33 @@ void mirrorHalf() {
 }
 
 void shuffleImage() {
+    while (true) {
+        int row, col, r, c;
+        string order;
+        cout << "Enter the new order of quarters without spaces:\n>> ";
+        cin.ignore();
+        getline(cin, order);
+        if ((order[0] != order[1]) && (order[0] != order[2]) && (order[0] != order[3])
+            && (order[1] != order[2]) && (order[1] != order[3]) && (order[2] != order[3])
+            && (order[0] <= '4') && ('0' < order[0]) && (order[1] <= '4') && ('0' < order[1])
+            && (order[2] <= '4') && ('0' < order[2]) && (order[3] <= '4') && ('0' < order[3])) {
+            for (int k = 0; k < 4; k++) {
+                r = k < 2 ? 0 : SIZE / 2;           // if quarter 1 or 2 start rows from 0 else start from 127
+                row = order[k] < '3' ? 0 : SIZE / 2;            // if quarter 1 or 2 start rows from 0 else start from 127
+                for (int i = row; i < row + SIZE / 2; i++, r++) {
+                    col = (order[k] - '0') % 2 == 1 ? 0 : SIZE / 2;         // if quarter 1 or 2 start cols from 0 else start from 127
+                    c = k % 2 == 0 ? 0 : SIZE / 2;          // if quarter 1 or 2 start cols from 0 else start from 127
+                    for (int j = col; j < col + SIZE / 2; j++, c++) {
+                        imageTemp[r][c] = image[i][j];
+                    }
+                }
+            }
+            editOriginal();
+            break;
+        } else {
+            cout << "Invalid quarters sequence\n" << endl;
+        }
+    }
 }
 
 void blurImage() {
@@ -452,6 +481,14 @@ void loadImage () {
         strcat(imageFileName, ".bmp");
         if (readGSBMP(imageFileName, image) != 1) {
             break;
+        }
+    }
+}
+
+void editOriginal() {
+    for (int i = 1; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = imageTemp[i][j];
         }
     }
 }
