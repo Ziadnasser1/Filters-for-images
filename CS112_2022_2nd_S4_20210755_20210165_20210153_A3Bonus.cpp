@@ -141,6 +141,13 @@ void blackWhite() {
 }
 
 void invertFilter() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                image[i][j][h] = abs(image[i][j][h] - 255);
+            }
+        }
+    }
 }
 
 void mergeFilter() {
@@ -252,6 +259,51 @@ void darkenLighten() {
 }
 
 void rotateImage() {
+    int choice;
+    for (int i = 0; i < SIZE; i++){
+        for (int j =i+1; j < SIZE; j++) {
+            for (int h = 0; h < RGB; h++) {
+                swap(image[i][j][h], image[j][i][h]);
+            }
+        }
+    }
+    while (true) {
+        cout << "Rotate (90), (180) or (270) degrees ?\n"
+                ">> ";
+        cin >> choice;
+
+        if (choice == 90) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE / 2; j += 1) {
+                    for (int h = 0; h < RGB; h++) {
+                        swap(image[i][j][h], image[i][SIZE - j - 1][h]);
+                    }// Rotates 90 degree clockwise
+                }
+
+            }
+            break;
+        } else if (choice == 180) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE - i; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        swap(image[i][j][h], image[SIZE - j - 1][SIZE - i - 1][h]);
+                    }// Rotates 180 degree clockwise
+                }
+
+            }
+            break;
+        } else if (choice == 270) {
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE / 2; j += 1) {
+                    for (int h = 0; h < RGB; h++) {
+                        swap(image[j][i][h], image[SIZE - j - 1][i][h]);
+                    }// Rotates 270 degree clockwise
+                }
+
+            }
+            break;
+        } else cout << "Wrong Choice, Please Try Again !";
+    }
 }
 
 void detectEdges() {
@@ -293,6 +345,114 @@ void detectEdges() {
 }
 
 void enlargeImage() {
+    int k = 0;
+    int l = 0;
+    while (true) {
+        cout << "Which quarter to enlarge 1, 2, 3 or 4?\n"
+                ">> ";
+        cin >> choice;
+        if (choice == "1") {
+            for (int i = 0; i < SIZE / 2; i++) {
+                for (int j = 0; j < SIZE / 2; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        image1[i][j][h] = image[i][j][h];
+                    }
+                }
+            }for (int h = 0; h < RGB; h++) {
+                for (int i = 0; i < SIZE; i+=2) {
+                    for (int j = 0; j < SIZE; j+=2) {
+                        image[i][j][h] = image1[k][l][h];
+                        image[i + 1][j][h] = image1[k][l][h];
+                        image[i][j + 1][h] = image1[k][l][h];
+                        image[i + 1][j + 1][h] = image1[k][l][h];
+                        l++;
+                    }
+                    l = 0;
+                    k++;
+                }
+                l = 0;
+                k = 0;
+            }
+            break;
+        } else if (choice == "2") {
+            l = 128;
+            for (int i = 0; i < SIZE / 2; i++) {
+                for (int j = 128; j < SIZE; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        image2[i][j][h] = image[i][j][h];
+                    }
+                }
+            }
+            for (int h = 0; h < RGB; h++) {
+                for (int i = 0; i < SIZE; i+=2) {
+                    for (int j = 0; j < SIZE; j+=2) {
+                        image[i][j][h] = image2[k][l][h];
+                        image[i + 1][j][h] = image2[k][l][h];
+                        image[i][j + 1][h] = image2[k][l][h];
+                        image[i + 1][j + 1][h] = image2[k][l][h];
+                        l++;
+                    }
+                    l = 128;
+                    k++;
+                }
+                k = 0;
+            }
+            break;
+        } else if (choice == "3") {
+            k = 128;
+            for (int i = 128; i < SIZE; i++) {
+                for (int j = 0; j < 128; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        image3[i][j][h] = image[i][j][h];
+                    }
+                }
+            }
+            for (int h = 0; h < RGB; h++) {
+                for (int i = 0; i < SIZE; i+=2) {
+                    for (int j = 0; j < SIZE; j+=2) {
+                        image[i][j][h] = image3[k][l][h];
+                        image[i + 1][j][h] = image3[k][l][h];
+                        image[i][j + 1][h] = image3[k][l][h];
+                        image[i + 1][j + 1][h] = image3[k][l][h];
+                        l++;
+                    }
+                    l = 0;
+                    k++;
+                }
+                l = 0;
+                k = 128;
+            }
+            break;
+        } else if (choice == "4") {
+            k = 128;
+            l = 128;
+            for (int i = 128; i < SIZE; i++) {
+                for (int j = 128; j < SIZE; j++) {
+                    for (int h = 0; h < RGB; h++) {
+                        image4[i][j][h] = image[i][j][h];
+                    }
+                }
+            }
+            for (int h = 0; h < RGB; h++) {
+                for (int i = 0; i < SIZE; i+=2) {
+                    for (int j = 0; j < SIZE; j+=2) {
+                        image[i][j][h] = image4[k][l][h];
+                        image[i + 1][j][h] = image4[k][l][h];
+                        image[i][j + 1][h] = image4[k][l][h];
+                        image[i + 1][j + 1][h] = image4[k][l][h];
+                        l++;
+                    }
+                    l = 128;
+                    k++;
+                }
+                k = 128;
+                l = 128;
+            }
+            break;
+        } else {
+            cout << "Invalid quarter to enlarge\n" << endl;
+        }
+    }
 }
 
 void shrinkImage() {
@@ -397,6 +557,35 @@ void mirrorHalf() {
 }
 
 void shuffleImage() {
+    while (true) {
+        int row, col, r, c;
+        string order;
+        cout << "Enter the new order of quarters without spaces:\n>> ";
+        cin.ignore();
+        getline(cin, order);
+        if ((order[0] != order[1]) && (order[0] != order[2]) && (order[0] != order[3])
+            && (order[1] != order[2]) && (order[1] != order[3]) && (order[2] != order[3])
+            && (order[0] <= '4') && ('0' < order[0]) && (order[1] <= '4') && ('0' < order[1])
+            && (order[2] <= '4') && ('0' < order[2]) && (order[3] <= '4') && ('0' < order[3])) {
+            for (int k = 0; k < 4; k++) {
+                r = k < 2 ? 0 : SIZE / 2;
+                row = order[k] < '3' ? 0 : SIZE / 2;
+                for (int i = row; i < row + SIZE / 2; i++, r++) {
+                    col = (order[k] - '0') % 2 == 1 ? 0 : SIZE / 2;
+                    c = k % 2 == 0 ? 0 : SIZE / 2;
+                    for (int j = col; j < col + SIZE / 2; j++, c++) {
+                        for (int l = 0; l < RGB; l++) {
+                            imageTemp[r][c][l] = image[i][j][l];
+                        }
+                    }
+                }
+            }
+            editOriginal();
+            break;
+        } else {
+            cout << "Invalid quarters sequence\n" << endl;
+        }
+    }
 }
 
 void blurImage() {
