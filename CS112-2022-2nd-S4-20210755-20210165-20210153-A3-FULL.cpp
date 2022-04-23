@@ -313,71 +313,28 @@ void detectEdges() {
 }
 
 void enlargeimage (){
-    int choice;
-    cout<<"Which quarter to enlarge 1, 2, 3 or 4 : ";
-    cin>>choice;
-    if(choice==1){
-        for (int i = 0; i < (SIZE/2); i++){
-            for (int j =0 ; j <(SIZE/2); j++){
-                image2[(i*2)][(j*2)]=image[i][j];
-                image2[(i*2)+1][(j*2)]=image[i][j];
-                image2[(i*2)][(j*2)+1]=image[i][j];
-                image2[(i*2)+1][(j*2)+1]=image[i][j];
+    int k, l, choice;
+    int dx[] = {0,1,0,1};
+    int dy[] = {0,0,1,1};
+    while (true) {
+        cout << "Which quarter to enlarge 1, 2, 3 or 4?\n>> ";
+        cin >> choice;
+        if (choice < 5 && choice > 0) {
+            k = choice < 3 ? 0 : SIZE / 2;
+            for (int i = 0; i < SIZE; i += 2, ++k) {
+                l = choice % 2 == 0 ? SIZE / 2 : 0;
+                for (int j = 0; j < SIZE; j += 2, ++l) {
+                    for (int d = 0; d < 4; ++d) {
+                        imageTemp[i + dx[d]][j + dy[d]] = image[k][l];
+                    }
+                }
             }
-        }
-        for (int i = 0; i < (SIZE); i++){
-            for (int j =0 ; j <(SIZE); j++){
-                image[i][j]=image2[i][j];
-            }
-        }
-    }
-    else if(choice==2){
-        for (int i = 0; i < (SIZE/2); i++){
-            for (int j =0 ; j <(SIZE/2); j++){
-                image2[i*2][j*2]=image[i][j+128];
-                image2[(i*2)+1][(j*2)]=image[i][j+128];
-                image2[(i*2)][(j*2)+1]=image[i][j+128];
-                image2[(i*2)+1][(j*2)+1]=image[i][j+128];
-            }
-        }
-        for (int i = 0; i < (SIZE); i++){
-            for (int j =0 ; j <(SIZE); j++){
-                image[i][j]=image2[i][j];
-            }
+            editOriginal();
+            break;
+        } else {
+            cout << "Invalid quarter to enlarge\n" << endl;
         }
     }
-    else if(choice==3){
-        for (int i = 0; i < (SIZE/2); i++){
-            for (int j =0 ; j <(SIZE/2); j++){
-                image2[i*2][j*2]=image[i+128][j];
-                image2[(i*2)+1][(j*2)]=image[i+128][j];
-                image2[(i*2)][(j*2)+1]=image[i+128][j];
-                image2[(i*2)+1][(j*2)+1]=image[i+128][j];
-            }
-        }
-        for (int i = 0; i < (SIZE); i++){
-            for (int j =0 ; j <(SIZE); j++){
-                image[i][j]=image2[i][j];
-            }
-        }
-    }
-    else if(choice==4){
-        for (int i = 0; i < (SIZE/2); i++){
-            for (int j =0 ; j <(SIZE/2); j++){
-                image2[i*2][j*2]=image[i+128][j+128];
-                image2[(i*2)+1][(j*2)]=image[i+128][j+128];
-                image2[(i*2)][(j*2)+1]=image[i+128][j+128];
-                image2[(i*2)+1][(j*2)+1]=image[i+128][j+128];
-            }
-        }
-        for (int i = 0; i < (SIZE); i++){
-            for (int j =0 ; j <(SIZE); j++){
-                image[i][j]=image2[i][j];
-            }
-        }
-    }
-    else cout<<"ERROR, WRONG CHOICE";
-}
 }
 
 void shrinkImage(){
